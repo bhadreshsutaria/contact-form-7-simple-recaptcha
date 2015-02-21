@@ -53,33 +53,35 @@ if ( ! empty( $cf7sr_key ) && ! empty( $cf7sr_secret ) && ! is_admin() )
     {
         $submission = WPCF7_Submission::get_instance();
         $data = $submission->get_posted_data();
-        $cf7_id = $data["_wpcf7"];
-        $cf7_text = do_shortcode( '[contact-form-7 id="515"]' );
-        $cf7sr_key = get_option( 'cf7sr_key' );
-        if ( false !== strpos( $cf7_text, $cf7sr_key ) )
+        if ( $data["_wpcf7"] > 0 )
         {
-            if ( !empty( $data["g-recaptcha-response"] ) )
+            $cf7_text = do_shortcode( '[contact-form-7 id="' . $data["_wpcf7"] . '"]' );
+            $cf7sr_key = get_option( 'cf7sr_key' );
+            if ( false !== strpos( $cf7_text, $cf7sr_key ) )
             {
-                $cf7sr_secret = get_option( 'cf7sr_secret' );
-                $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $cf7sr_secret . '&response=' . $data["g-recaptcha-response"];
-                $request = wp_remote_get( $url );
-                $body = wp_remote_retrieve_body( $request );
-                $response = json_decode( $body );
-                if ( isset ( $response->success ) && 1 == $response->success )
+                if ( !empty( $data["g-recaptcha-response"] ) )
                 {
-                    return;
+                    $cf7sr_secret = get_option( 'cf7sr_secret' );
+                    $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $cf7sr_secret . '&response=' . $data["g-recaptcha-response"];
+                    $request = wp_remote_get( $url );
+                    $body = wp_remote_retrieve_body( $request );
+                    $response = json_decode( $body );
+                    if ( isset ( $response->success ) && 1 == $response->success )
+                    {
+                        return;
+                    }
                 }
-            }
-            $message = get_option( 'cf7sr_message' );
-            if ( '' == $message )
-            {
-                $message = 'Invalid captcha';
-            }
-            $error = (object) array(
-                'message' => $message
-            );
-            $status = json_encode( $error );
-            echo $status; die();
+                $message = get_option( 'cf7sr_message' );
+                if ( '' == $message )
+                {
+                    $message = 'Invalid captcha';
+                }
+                $error = (object) array(
+                    'message' => $message
+                );
+                $status = json_encode( $error );
+                echo $status; die();
+            }   
         }
     }
 }
