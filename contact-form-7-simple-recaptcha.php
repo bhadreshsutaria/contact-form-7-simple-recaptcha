@@ -53,9 +53,12 @@ if ( ! empty( $cf7sr_key ) && ! empty( $cf7sr_secret ) && ! is_admin() )
     {
         $submission = WPCF7_Submission::get_instance();
         $data = $submission->get_posted_data();
-        if ( isset( $data["g-recaptcha-response"] ) )
+        $cf7_id = $data["_wpcf7"];
+        $cf7_text = do_shortcode( '[contact-form-7 id="515"]' );
+        $cf7sr_key = get_option( 'cf7sr_key' );
+        if ( false !== strpos( $cf7_text, $cf7sr_key ) )
         {
-            if ( '' != $data["g-recaptcha-response"] )
+            if ( !empty( $data["g-recaptcha-response"] ) )
             {
                 $cf7sr_secret = get_option( 'cf7sr_secret' );
                 $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $cf7sr_secret . '&response=' . $data["g-recaptcha-response"];
