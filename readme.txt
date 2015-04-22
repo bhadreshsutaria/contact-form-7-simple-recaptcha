@@ -13,7 +13,7 @@ Add No CAPTCHA reCAPTCHA to Contact Form 7
 == Description ==
 
 Add No CAPTCHA reCAPTCHA to Contact Form 7.<br>
-Tested with Contact Form 7 version 4.1.2 and WordPress version 4.1.2<br>
+Tested with Contact Form 7 version 4.1.1 and WordPress version 4.1.2<br>
 A significant number of your users can now attest they are human without having to solve a CAPTCHA.<br>
 With just a single click they'll confirm they are not a robot.<br>
 Configure plugin from Settings => CF7 Simple Recaptcha.<br>
