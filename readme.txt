@@ -18,7 +18,7 @@ A significant number of your users can now attest they are human without having 
 With just a single click they'll confirm they are not a robot.<br>
 Configure plugin from Settings => CF7 Simple Recaptcha.<br>
 After configuration, add [cf7sr-simple-recaptcha] to any Contact Form 7.<br>
-In case you want to submit same form multiple times on same page, edit Contact Form => Additional Settings => on_sent_ok: "grecaptcha.reset();"
+To allow submitting form multiple times on same page, edit Contact Form => Additional Settings => and add: on_sent_ok: "grecaptcha.reset();"<br>
 In case it does not work, just deactivate.<br>
 
 == Installation ==
